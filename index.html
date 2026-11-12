@@ -5,93 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Apni Sabzi Mandi - Bareilly</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#f2f2f2;padding-bottom:135px}
-header{background:#2e7d32;color:#fff;padding:14px;text-align:center;position:sticky;top:0;z-index:10}
-header h1{font-size:22px}
-header p{font-size:12px;background:#fff;color:#2e7d32;display:inline-block;padding:5px 12px;border-radius:20px;margin-top:6px;font-weight:bold}
-header span{font-size:12px;display:block;margin-top:5px;opacity:0.9}
-.products{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}
-.card{background:#fff;border-radius:14px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
-.card .emoji{font-size:40px}
-.card h3{font-size:16px;margin:6px 0 2px}
-.card .price{color:#2e7d32;font-weight:bold;font-size:15px}
-.card .unit{font-size:11px;color:#888}
-.qty-box{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:8px}
-.qty-box button{width:32px;height:32px;border-radius:50%;border:0;font-size:18px;font-weight:bold;cursor:pointer}
-.qty-box .minus{background:#eee}
-.qty-box .plus{background:#2e7d32;color:#fff}
-.qty-box b{font-size:15px;min-width:18px}
-.add-btn{background:#2e7d32;color:#fff;border:0;padding:8px 18px;border-radius:20px;margin-top:8px;cursor:pointer;font-weight:bold}
-.cart-box{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:8px 12px;border-top:2px solid #2e7d32;box-shadow:0 -4px 12px rgba(0,0,0,0.12);z-index:20}
-.cart-top{display:flex;justify-content:space-between;align-items:center}
-.cart-top h3{font-size:14px}
-.cart-top span{font-size:12px;color:#2e7d32;font-weight:bold}
-#cartItems{font-size:12px;max-height:36px;overflow-y:auto;color:#555;margin-top:3px;line-height:1.5}
-#total{font-weight:bold;font-size:14px;margin-top:3px}
-.order-btn{background:#25D366;color:#fff;border:0;width:100%;padding:10px;border-radius:10px;font-size:14px;font-weight:bold;margin-top:6px;cursor:pointer}
-.free-del{font-size:11px;text-align:center;color:#2e7d32;margin-top:4px;font-weight:bold}
+body{font-family:Arial,sans-serif;margin:0;background:#f1f8e9;padding-bottom:260px}
+.header{background:#2e7d32;color:white;text-align:center;padding:20px 10px}
+.header h1{margin:0;font-size:28px}
+.pill{background:white;color:#2e7d32;display:inline-block;padding:6px 16px;border-radius:20px;font-weight:bold;margin-top:10px;font-size:14px}
+.sub{font-size:14px;margin-top:8px;opacity:.9}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;max-width:600px;margin:auto}
+.card{background:white;border-radius:12px;padding:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.card img{width:100%;height:110px;object-fit:cover;border-radius:10px}
+.card h3{margin:8px 0 2px;font-size:17px}
+.price{color:#2e7d32;font-weight:bold}
+.btns{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:8px}
+.btns button{background:#2e7d32;color:white;border:none;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer}
+.btns button.minus{background:#e53935}
+.add{background:#2e7d32;color:white;border:none;padding:8px 18px;border-radius:20px;cursor:pointer;font-weight:bold}
+.cart{position:fixed;bottom:0;left:0;right:0;background:white;box-shadow:0 -2px 10px rgba(0,0,0,.2);padding:12px;max-width:600px;margin:auto;border-radius:16px 16px 0 0;max-height:220px;overflow-y:auto}
+.cart-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee;font-size:15px}
+.cart-item .c-btns{display:flex;align-items:center;gap:8px}
+.c-btns button{width:28px;height:28px;border-radius:50%;border:none;font-size:18px;cursor:pointer}
+.c-btns .plus{background:#2e7d32;color:white}
+.c-btns .minus{background:#ffccbc}
+.order-btn{background:#2e7d32;color:white;width:100%;border:none;padding:12px;border-radius:10px;font-size:16px;font-weight:bold;margin-top:10px;cursor:pointer}
 </style>
 </head>
 <body>
-<header><h1>🥦 Apni Sabzi Mandi</h1><p>⚡ Abhi Order Karein  - Fast Delevery - 1 Ghante Me Delivery</p><span>Fresh Sabzi • Bareilly • Subah 7 - Raat 9</span></header>
 
-<div class="products" id="products"></div>
+<div class="header">
+<h1>🥦 Apni Sabzi Mandi</h1>
+<div class="pill">⚡ Abhi Order Kariye, Fast Delivery</div>
+<div class="sub">Fresh Sabzi • Bareilly • Subah 7 - Raat 9</div>
+</div>
 
-<div class="cart-box">
-<div class="cart-top"><h3>🛒 Aapka Cart</h3><span id="count">0 item</span></div>
-<div id="cartItems">Abhi cart khaali hai... pehle sabzi add karo 👆</div>
-<div id="total">Total: Rs. 0</div>
-<button class="order-btn" onclick="order()">Abhi Order Karein - Fast Delivery ⚡</button>
-<div class="free-del">✅ Rs. 199+ pe FREE Delivery</div>
+<div class="grid" id="products"></div>
+
+<div class="cart">
+<div><b>Aapka Cart</b> - <span id="total">Total: ₹0</span></div>
+<div id="cartList"><p style="color:#888;font-size:14px">Cart khaali hai. Sabzi add karo.</p></div>
+<button class="order-btn" onclick="order()">Abhi Order Kariye, Fast Delivery</button>
 </div>
 
 <script>
-let items=[
-{name:"Aloo",price:30,emoji:"🥔",unit:"per kg"},
-{name:"Pyaz",price:40,emoji:"🧅",unit:"per kg"},
-{name:"Tamatar",price:35,emoji:"🍅",unit:"per kg"},
-{name:"Bhindi",price:45,emoji:"🥒",unit:"per kg"},
-{name:"Gajar",price:30,emoji:"🥕",unit:"per kg"},
-{name:"Baingan",price:35,emoji:"🍆",unit:"per kg"},
-{name:"Palak",price:20,emoji:"🥬",unit:"per gaddi"},
-{name:"Gobhi",price:40,emoji:"🥦",unit:"per kg"},
-{name:"Mirchi",price:50,emoji:"🌶️",unit:"per kg"},
-{name:"Adrak",price:80,emoji:"🫚",unit:"per kg"},
-{name:"Lauki",price:25,emoji:"🥒",unit:"per piece"},
-{name:"Karela",price:40,emoji:"🥒",unit:"per kg"}
+const items=[
+{name:"Palak",price:20,img:"https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400"},
+{name:"Gobhi",price:35,img:"https://images.unsplash.com/photo-1568584711075-3d021a7c3ca3?w=400"},
+{name:"Mirchi",price:40,img:"https://images.unsplash.com/photo-1583119912267-cc97c911e416?w=400"},
+{name:"Adrak",price:60,img:"https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400"},
+{name:"Lauki",price:30,img:"https://images.unsplash.com/photo-1596097635121-14b63b7a0c19?w=400"},
+{name:"Karela",price:45,img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400"},
 ];
 let cart={};
-let box=document.getElementById("products");
-items.forEach((item,i)=>{
-box.innerHTML+=`<div class="card"><div class="emoji">${item.emoji}</div><h3>${item.name}</h3><div class="price">₹${item.price} <span class="unit">${item.unit}</span></div><div id="ctrl-${i}"><button class="add-btn" onclick="add(${i})">Add +</button></div></div>`;
-});
-function add(i){ cart[i]=(cart[i]||0)+1; render(i); updateCart(); }
-function minus(i){ cart[i]--; if(cart[i]<=0) delete cart[i]; render(i); updateCart(); }
-function render(i){
-let el=document.getElementById("ctrl-"+i);
-if(!cart[i]){ el.innerHTML=`<button class="add-btn" onclick="add(${i})">Add +</button>`; }
-else{ el.innerHTML=`<div class="qty-box"><button class="minus" onclick="minus(${i})">-</button><b>${cart[i]}</b><button class="plus" onclick="add(${i})">+</button></div>`; }
+function renderProducts(){
+document.getElementById('products').innerHTML=items.map((it,i)=>{
+let q=cart[i]||0;
+return `<div class="card"><img src="${it.img}"><h3>${it.name}</h3><div class="price">₹${it.price} / kg</div>
+${q==0?`<button class="add" onclick="changeQty(${i},1)">Add +</button>`:`<div class="btns"><button class="minus" onclick="changeQty(${i},-1)">-</button><b>${q}</b><button onclick="changeQty(${i},1)">+</button></div>`}
+</div>`}).join('');
 }
-function updateCart(){
-let keys=Object.keys(cart);
-let count=keys.reduce((a,k)=>a+cart[k],0);
-document.getElementById("count").innerText=count+" item";
-if(count==0){ document.getElementById("cartItems").innerHTML="Abhi cart khaali hai... pehle sabzi add karo 👆"; document.getElementById("total").innerText="Total: Rs. 0"; return; }
-let txt=keys.map(k=>items[k].name+" x "+cart[k]+" = Rs. "+(items[k].price*cart[k])).join("<br>");
-document.getElementById("cartItems").innerHTML=txt;
-let t=keys.reduce((a,k)=>a+items[k].price*cart[k],0);
-document.getElementById("total").innerText="Total: Rs. "+t + (t>=199 ? " (FREE Delivery)" : " + Rs. 20 Delivery");
+function changeQty(i,d){
+cart[i]=(cart[i]||0)+d;
+if(cart[i]<=0) delete cart[i];
+renderProducts(); renderCart();
+}
+function renderCart(){
+let list=document.getElementById('cartList');
+let total=0; let html='';
+for(let i in cart){
+let it=items[i]; let q=cart[i]; total+=it.price*q;
+html+=`<div class="cart-item"><span>${it.name} - ₹${it.price}</span><span class="c-btns"><button class="minus" onclick="changeQty(${i},-1)">-</button><b>${q}</b><button class="plus" onclick="changeQty(${i},1)">+</button></span></div>`;
+}
+if(!html) html='<p style="color:#888;font-size:14px">Cart khaali hai. Sabzi add karo.</p>';
+list.innerHTML=html;
+document.getElementById('total').innerText='Total: ₹'+total;
 }
 function order(){
-let keys=Object.keys(cart);
-if(keys.length==0){alert("Pehle kuch add karo!");return;}
-let txt=keys.map(k=>items[k].name+" x "+cart[k]+" = Rs. "+(items[k].price*cart[k])).join("%0A");
-let t=keys.reduce((a,k)=>a+items[k].price*cart[k],0);
-let del = t>=199 ? 0 : 20;
-let final = t+del;
-window.open("https://wa.me/918445966490?text=Namaste! Mujhe FAST Delivery chahiye (1 Ghante Me):%0A%0A"+txt+"%0A%0ASabzi Total: Rs."+t+"%0ADelivery: Rs."+del+"%0A*Final Total: Rs."+final+"*");
+let t=document.getElementById('total').innerText;
+if(t=='Total: ₹0'){alert('Pehle koi sabzi add karo!');return;}
+alert('Order mil gaya! '+t+' - Jaldi delivery hogi.');
 }
+renderProducts(); renderCart();
 </script>
 </body>
 </html>
