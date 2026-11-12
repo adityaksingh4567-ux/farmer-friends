@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Apni Sabzi Mandi - Bareilly</title>
 <style>
-body{font-family:Arial,sans-serif;margin:0;background:#f1f8e9;padding-bottom:260px}
+body{font-family:Arial,sans-serif;margin:0;background:#f1f8e9;padding-bottom:280px}
 .header{background:#2e7d32;color:white;text-align:center;padding:20px 10px}
 .header h1{margin:0;font-size:28px}
 .pill{background:white;color:#2e7d32;display:inline-block;padding:6px 16px;border-radius:20px;font-weight:bold;margin-top:10px;font-size:14px}
 .sub{font-size:14px;margin-top:8px;opacity:.9}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;max-width:600px;margin:auto}
 .card{background:white;border-radius:12px;padding:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.card img{width:100%;height:110px;object-fit:cover;border-radius:10px}
+.card img{width:100%;height:120px;object-fit:cover;border-radius:10px;background:#eee}
 .card h3{margin:8px 0 2px;font-size:17px}
 .price{color:#2e7d32;font-weight:bold}
 .btns{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:8px}
@@ -29,60 +29,42 @@ body{font-family:Arial,sans-serif;margin:0;background:#f1f8e9;padding-bottom:260
 </style>
 </head>
 <body>
-
 <div class="header">
 <h1>🥦 Apni Sabzi Mandi</h1>
 <div class="pill">⚡ Abhi Order Kariye, Fast Delivery</div>
 <div class="sub">Fresh Sabzi • Bareilly • Subah 7 - Raat 9</div>
 </div>
-
 <div class="grid" id="products"></div>
-
 <div class="cart">
 <div><b>Aapka Cart</b> - <span id="total">Total: ₹0</span></div>
 <div id="cartList"><p style="color:#888;font-size:14px">Cart khaali hai. Sabzi add karo.</p></div>
 <button class="order-btn" onclick="order()">Abhi Order Kariye, Fast Delivery</button>
 </div>
-
 <script>
 const items=[
-{name:"Palak",price:20,img:"https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400"},
-{name:"Gobhi",price:35,img:"https://images.unsplash.com/photo-1568584711075-3d021a7c3ca3?w=400"},
-{name:"Mirchi",price:40,img:"https://images.unsplash.com/photo-1583119912267-cc97c911e416?w=400"},
-{name:"Adrak",price:60,img:"https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400"},
-{name:"Lauki",price:30,img:"https://images.unsplash.com/photo-1596097635121-14b63b7a0c19?w=400"},
-{name:"Karela",price:45,img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400"},
+{name:"Palak",price:20,img:"https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80"},
+{name:"Gobhi",price:35,img:"https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?w=400&q=80"},
+{name:"Mirchi",price:40,img:"https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&q=80"},
+{name:"Adrak",price:60,img:"https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400&q=80"},
+{name:"Lauki",price:30,img:"https://images.unsplash.com/photo-1601648764658-cf37e8c89b70?w=400&q=80"},
+{name:"Karela",price:45,img:"https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80"},
 ];
 let cart={};
 function renderProducts(){
 document.getElementById('products').innerHTML=items.map((it,i)=>{
 let q=cart[i]||0;
-return `<div class="card"><img src="${it.img}"><h3>${it.name}</h3><div class="price">₹${it.price} / kg</div>
+return `<div class="card"><img src="${it.img}" onerror="this.src='https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400'"><h3>${it.name}</h3><div class="price">₹${it.price} / kg</div>
 ${q==0?`<button class="add" onclick="changeQty(${i},1)">Add +</button>`:`<div class="btns"><button class="minus" onclick="changeQty(${i},-1)">-</button><b>${q}</b><button onclick="changeQty(${i},1)">+</button></div>`}
 </div>`}).join('');
 }
-function changeQty(i,d){
-cart[i]=(cart[i]||0)+d;
-if(cart[i]<=0) delete cart[i];
-renderProducts(); renderCart();
-}
+function changeQty(i,d){cart[i]=(cart[i]||0)+d;if(cart[i]<=0) delete cart[i];renderProducts();renderCart();}
 function renderCart(){
-let list=document.getElementById('cartList');
-let total=0; let html='';
-for(let i in cart){
-let it=items[i]; let q=cart[i]; total+=it.price*q;
-html+=`<div class="cart-item"><span>${it.name} - ₹${it.price}</span><span class="c-btns"><button class="minus" onclick="changeQty(${i},-1)">-</button><b>${q}</b><button class="plus" onclick="changeQty(${i},1)">+</button></span></div>`;
-}
+let list=document.getElementById('cartList');let total=0;let html='';
+for(let i in cart){let it=items[i];let q=cart[i];total+=it.price*q;html+=`<div class="cart-item"><span>${it.name} - ₹${it.price}</span><span class="c-btns"><button class="minus" onclick="changeQty(${i},-1)">-</button><b>${q}</b><button class="plus" onclick="changeQty(${i},1)">+</button></span></div>`;}
 if(!html) html='<p style="color:#888;font-size:14px">Cart khaali hai. Sabzi add karo.</p>';
-list.innerHTML=html;
-document.getElementById('total').innerText='Total: ₹'+total;
-}
-function order(){
-let t=document.getElementById('total').innerText;
-if(t=='Total: ₹0'){alert('Pehle koi sabzi add karo!');return;}
-alert('Order mil gaya! '+t+' - Jaldi delivery hogi.');
-}
-renderProducts(); renderCart();
+list.innerHTML=html;document.getElementById('total').innerText='Total: ₹'+total;}
+function order(){let t=document.getElementById('total').innerText;if(t=='Total: ₹0'){alert('Pehle koi sabzi add karo!');return;}alert('Order mil gaya! '+t+' - Jaldi delivery hogi.');}
+renderProducts();renderCart();
 </script>
 </body>
 </html>
